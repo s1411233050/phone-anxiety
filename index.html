@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>被「點亮」的焦慮 | 互動問卷</title>
+    <!-- 引入 Tailwind CSS & SortableJS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f0f7ff; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); transition: transform 0.2s; }
+        .btn-primary:active { transform: scale(0.95); }
+        .step-hidden { display: none; }
+        .drag-handle { cursor: grab; }
+        input[type=range] { accent-color: #3b82f6; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- 背景裝飾元件 -->
+    <div class="fixed top-10 left-10 text-blue-200 animate-pulse"><svg width="100" height="100" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2L14.39,8.26L21,9.27L16.27,13.87L17.39,20.48L12,17.34L6.61,20.48L7.73,13.87L3,9.27L9.61,8.26L12,2Z"/></svg></div>
+    <div class="fixed bottom-10 right-10 text-blue-200 animate-bounce"><svg width="80" height="80" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.89,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M19,19H5V5H19V19M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z"/></svg></div>
+
+    <div class="w-full max-w-2xl z-10">
+        
+        <!-- Step 1: Start -->
+        <div id="step-start" class="glass-card p-10 text-center animate__animated animate__fadeIn">
+            <h1 class="text-4xl font-bold text-blue-900 mb-4">被「點亮」的焦慮</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed">滑動世代的情緒防線：心理拔河測試<br>讓我們透過互動排序，探索你與手機之間的依賴程度。</p>
+            <button onclick="nextStep('step-start', 'step-ranking')" class="btn-primary text-white px-10 py-4 rounded-full text-lg font-bold shadow-lg">
+                開始探索之旅
+            </button>
+        </div>
+
+        <!-- Step 2: Ranking -->
+        <div id="step-ranking" class="glass-card p-8 step-hidden animate__animated animate__fadeIn">
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">排優先權</h2>
+            <p class="text-gray-500 mb-6 text-sm">請拖曳方塊，將你覺得「影響你最嚴重」的層面放在最上方。</p>
+            
+            <ul id="sortable-list" class="space-y-4">
+                <li data-id="A" class="bg-white border-2 border-blue-100 p-4 rounded-xl flex items-center shadow-sm hover:border-blue-300 transition drag-handle">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold">A</span>
+                    <span class="flex-1 font-medium text-gray-700">情緒層面 (焦慮、情緒調節)</span>
+                    <span class="text-gray-300">☰</span>
+                </li>
+                <li data-id="B" class="bg-white border-2 border-blue-100 p-4 rounded-xl flex items-center shadow-sm hover:border-blue-300 transition drag-handle">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold">B</span>
+                    <span class="flex-1 font-medium text-gray-700">自我控制 (專注力、拖延)</span>
+                    <span class="text-gray-300">☰</span>
+                </li>
+                <li data-id="C" class="bg-white border-2 border-blue-100 p-4 rounded-xl flex items-center shadow-sm hover:border-blue-300 transition drag-handle">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold">C</span>
+                    <span class="flex-1 font-medium text-gray-700">日常生活 (睡眠、作息)</span>
+                    <span class="text-gray-300">☰</span>
+                </li>
+                <li data-id="D" class="bg-white border-2 border-blue-100 p-4 rounded-xl flex items-center shadow-sm hover:border-blue-300 transition drag-handle">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold">D</span>
+                    <span class="flex-1 font-medium text-gray-700">依賴性 (戒斷、使用失控)</span>
+                    <span class="text-gray-300">☰</span>
+                </li>
+                <li data-id="E" class="bg-white border-2 border-blue-100 p-4 rounded-xl flex items-center shadow-sm hover:border-blue-300 transition drag-handle">
+                    <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-4 font-bold">E</span>
+                    <span class="flex-1 font-medium text-gray-700">社會影響 (人際、數位人設)</span>
+                    <span class="text-gray-300">☰</span>
+                </li>
+            </ul>
+
+            <button onclick="initQuestions()" class="w-full mt-8 btn-primary text-white py-4 rounded-xl font-bold">下一步：填寫細節</button>
+        </div>
+
+        <!-- Step 3: Detailed Questions -->
+        <div id="step-questions" class="glass-card p-8 step-hidden animate__animated animate__fadeIn">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-blue-800">細節評測</h2>
+                <div id="progress" class="text-sm font-bold text-blue-500 italic"></div>
+            </div>
+            
+            <div id="current-question-box" class="min-h-[300px]">
+                <!-- 題目會動態注入 -->
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button id="prev-btn" onclick="prevQuestion()" class="flex-1 bg-gray-100 text-gray-600 py-4 rounded-xl font-bold hidden">回上一步</button>
+                <button id="next-btn" onclick="nextQuestion()" class="flex-[2] btn-primary text-white py-4 rounded-xl font-bold">下一題</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Final Result -->
+        <div id="step-result" class="glass-card p-10 step-hidden animate__animated animate__zoomIn">
+            <div id="loading" class="text-center py-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
+                <p class="text-blue-600 font-bold">分析資料與同步數據中...</p>
+            </div>
+            <div id="result-content" class="hidden">
+                <h2 class="text-3xl font-bold text-center text-blue-900 mb-6">你的心理拔河分析報告</h2>
+                <div id="analysis-text" class="space-y-4 text-gray-700 leading-relaxed"></div>
+                <button onclick="location.reload()" class="w-full mt-10 bg-gray-100 text-gray-500 py-3 rounded-xl">重新檢測</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 設定區：填入你的 Google Apps Script URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzV4ZK6NyqUUQrAAhSl2HPxHWRqorWy0deD3EqdvmvXjFy-ONV8Bwl0BG-xPL-HhS5pw/exec';
+
+        const surveyData = {
+            'A': { title: '情緒層面', questions: ['當我一段時間沒看手機，會擔心錯過訊息。', '看到螢幕點亮或聽到提示音，會感到莫名的緊張。', '感到生活壓力大時，習慣滑手機來逃避。', '手機沒電或沒網路時，會感到強烈焦慮。', '長時間滑手機後，反而覺得更空虛。'] },
+            'B': { title: '自我控制', questions: ['原本只想看一下，結果一滑就半小時。', '明知沒新通知，仍會下意識解鎖手機。', '在工作或學習時，很難維持 20 分鐘不看手機。', '即使很累，還是會強迫自己繼續滑手機。', '嘗試限制玩手機時間，但通常幾天就失敗。'] },
+            'C': { title: '日常生活', questions: ['通勤或排隊空檔，完全無法忍受什麼都不做。', '為了玩手機，常常拖延原本該做的事。', '習慣一邊吃飯一邊滑手機，難以專注。', '過度使用手機已實質影響學業或工作效率。', '曾在走路或上下樓梯時，因看手機而差點危險。'] },
+            'D': { title: '依賴性', questions: ['無論去哪裡，都必須把手機帶在身邊才安心。', '每天醒來第一件事和睡前最後一件事都是手機。', '需要花比以前更長的時間在手機上才能滿足。', '比起實體社交，更傾向在手機上獲得樂趣。', '覺得手機已成為身體一部分，失去它像失去控制。'] },
+            'E': { title: '社會影響', questions: ['聚餐時常因為看手機忽略了眼前的陪伴。', '更習慣透過文字或貼圖表達情感，而非面談。', '看到社群上別人的生活會感到自卑或平庸。', '身邊親友曾抱怨過我花太多時間在手機上。', '維護數位人設的心力，已超越經營現實關係。'] }
+        };
+
+        let sortable;
+        let userRanking = [];
+        let currentQuestionIdx = 0;
+        let userAnswers = { questions: {}, scores: {} };
+
+        // 初始化拖曳
+        window.onload = () => {
+            sortable = Sortable.create(document.getElementById('sortable-list'), {
+                animation: 150,
+                handle: '.drag-handle'
+            });
+        };
+
+        function nextStep(current, next) {
+            document.getElementById(current).classList.add('step-hidden');
+            document.getElementById(next).classList.remove('step-hidden');
+        }
+
+        function initQuestions() {
+            userRanking = sortable.toArray();
+            currentQuestionIdx = 0;
+            renderQuestion();
+            nextStep('step-ranking', 'step-questions');
+        }
+
+        function renderQuestion() {
+            const layerId = userRanking[currentQuestionIdx];
+            const data = surveyData[layerId];
+            const container = document.getElementById('current-question-box');
+            
+            document.getElementById('progress').innerText = `層面 ${currentQuestionIdx + 1} / 5`;
+            
+            container.innerHTML = `
+                <div class="animate__animated animate__fadeInRight">
+                    <h3 class="text-xl font-bold text-blue-600 mb-6 underline decoration-blue-200 underline-offset-8">【${data.title}】</h3>
+                    <p class="text-gray-600 mb-4 font-medium">1. 請選出最有感的一項描述：</p>
+                    <div class="space-y-3 mb-8">
+                        ${data.questions.map((q, i) => `
+                            <label class="block p-3 border rounded-xl hover:bg-blue-50 cursor-pointer transition text-sm">
+                                <input type="radio" name="q_select" value="${q}" class="mr-2" ${userAnswers.questions[layerId] === q ? 'checked' : ''}>
+                                ${q}
+                            </label>
+                        `).join('')}
+                    </div>
+                    <p class="text-gray-600 mb-4 font-medium">2. 這個層面影響你的嚴重度 (1-5)：</p>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs text-gray-400">輕微</span>
+                        <input type="range" id="score-range" min="1" max="5" step="1" value="${userAnswers.scores[layerId] || 3}" class="flex-1">
+                        <span class="text-xs text-red-400">嚴重</span>
+                    </div>
+                    <div class="text-center mt-2 font-bold text-blue-500" id="score-display">${userAnswers.scores[layerId] || 3} 分</div>
+                </div>
+            `;
+
+            document.getElementById('score-range').oninput = (e) => {
+                document.getElementById('score-display').innerText = e.target.value + ' 分';
+            };
+
+            document.getElementById('prev-btn').style.display = currentQuestionIdx === 0 ? 'none' : 'block';
+            document.getElementById('next-btn').innerText = currentQuestionIdx === 4 ? '提交結果' : '下一題';
+        }
+
+        function nextQuestion() {
+            const selectedQ = document.querySelector('input[name="q_select"]:checked');
+            if (!selectedQ) return alert('請先選擇一個問題描述！');
+
+            const layerId = userRanking[currentQuestionIdx];
+            userAnswers.questions[layerId] = selectedQ.value;
+            userAnswers.scores[layerId] = document.getElementById('score-range').value;
+
+            if (currentQuestionIdx < 4) {
+                currentQuestionIdx++;
+                renderQuestion();
+            } else {
+                submitData();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIdx > 0) {
+                currentQuestionIdx--;
+                renderQuestion();
+            }
+        }
+
+        async function submitData() {
+            nextStep('step-questions', 'step-result');
+            
+            const payload = {
+                ranking: userRanking.map(id => surveyData[id].title),
+                questions: userAnswers.questions,
+                scores: userAnswers.scores
+            };
+
+            try {
+                // 發送到 Google Sheets
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) { console.error('Sheet update failed', e); }
+
+            showAnalysis();
+        }
+
+        function showAnalysis() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('result-content').classList.remove('hidden');
+            
+            const topId = userRanking[0];
+            const topScore = userAnswers.scores[topId];
+            let text = `<p class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">根據測試，影響你最深的層次是<b>「${surveyData[topId].title}」</b>，你自評的嚴重程度為 <b>${topScore}/5 分</b>。</p>`;
+            
+            if (topId === 'D' || topId === 'B') {
+                text += `<p>🚩 <b>警訊：</b>你對數位設備已展現出較強的生理或心理依賴。當螢幕點亮時，你的大腦會習慣性地追逐多巴胺刺激。建議嘗試「灰階螢幕」模式，減少視覺誘因。</p>`;
+            } else {
+                text += `<p>💡 <b>分析：</b>手機目前更多是作為你壓力釋放的緩衝區。雖然尚未失控，但須留意是否在「逃避現實」與「正常使用」的邊界徘徊。</p>`;
+            }
+            
+            text += `<div class="mt-6 p-4 bg-gray-50 rounded-xl text-sm italic">📌 你的數位處方箋：嘗試每天設定「靜置一小時」，將手機放在視線之外，重新練習與「無聊」共處。</div>`;
+            
+            document.getElementById('analysis-text').innerHTML = text;
+        }
+    </script>
+</body>
+</html>
